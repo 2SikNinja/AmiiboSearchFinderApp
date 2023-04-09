@@ -69,6 +69,9 @@ class _MyListState extends State<MyList> {
             const Text(
               'You have pushed the button this many times:',
             ),
+            const Text(
+              'This is the second page',
+            ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
