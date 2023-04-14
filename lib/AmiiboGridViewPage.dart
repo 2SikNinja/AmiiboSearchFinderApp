@@ -71,7 +71,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Amiibo Grid View'),
+        title: Text('All Amiibos'),
         actions: [
           IconButton(
             icon: Icon(Icons.favorite),

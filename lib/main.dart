@@ -1,7 +1,7 @@
+import 'package:amiibosearchfinder/LoadingScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:amiibosearchfinder/SearchBarPage.dart';
-import 'package:amiibosearchfinder/ViewAmiiboPage.dart';
 import 'package:amiibosearchfinder/AmiiboGridViewPage.dart';
+import 'package:amiibosearchfinder/LoadingScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.red,
       ),
-      home: AmiiboGridViewPage(),
+      home: LoadingScreen(),
     );
   }
 }
