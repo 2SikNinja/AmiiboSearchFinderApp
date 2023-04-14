@@ -47,31 +47,42 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
         padding: EdgeInsets.all(8),
         itemBuilder: (BuildContext context, int index) {
           final amiibo = amiibos[index];
-          return InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/showusage', arguments: {'name': amiibo['name']});
-            },
-            child: Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  Image.network(amiibo['image'], height: 150, width: 150),
-                  SizedBox(height: 8),
-                  Text(
-                    amiibo['name'],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                    ),
+          return Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/showusage', arguments: {'name': amiibo['name']});
+                  },
+                  child: Column(
+                    children: [
+                      Image.network(amiibo['image'], height: 150, width: 150),
+                      SizedBox(height: 8),
+                      Text(
+                        amiibo['name'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/showusage', arguments: {'name': amiibo['name']});
+                  },
+                  child: Text('Show Usage'),
+                ),
+              ],
             ),
           );
         },
