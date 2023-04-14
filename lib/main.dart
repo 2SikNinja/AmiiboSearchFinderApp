@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:amiibosearchfinder/SearchBarPage.dart';
 import 'package:amiibosearchfinder/ViewAmiiboPage.dart';
+import 'package:amiibosearchfinder/AmiiboGridViewPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: AmiiboGridViewPage(),
     );
   }
 }
