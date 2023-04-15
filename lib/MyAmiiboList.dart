@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 class MyAmiiboList extends StatelessWidget {
   final List<dynamic> favoriteAmiibos;
+  final Function(String) favoriteStatusChanged;
 
-  MyAmiiboList({required this.favoriteAmiibos});
+  MyAmiiboList({
+    required this.favoriteAmiibos,
+    required this.favoriteStatusChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,21 @@ class MyAmiiboList extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      Image.network(amiibo['image'], height: 150, width: 150),
+                      Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Image.network(amiibo['image'], height: 150, width: 150),
+                          IconButton(
+                            icon: Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              favoriteStatusChanged(amiibo['tail']);
+                            },
+                          ),
+                        ],
+                      ),
                       SizedBox(height: 8),
                       Text(
                         amiibo['name'],

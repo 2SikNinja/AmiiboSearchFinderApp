@@ -12,11 +12,20 @@ class AmiiboGridViewPage extends StatefulWidget {
 class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
   List<dynamic> amiibos = [];
   List<dynamic> favoriteAmiibos = [];
+  List<dynamic> filteredAmiibos = [];
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _fetchAllAmiibos();
+    _searchController.addListener(_filterAmiibos);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchAllAmiibos() async {
@@ -30,21 +39,33 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
       setState(() {
         amiibos =
             amiiboList.where((amiibo) => amiibo['type'] == 'Figure').toList();
+        filteredAmiibos = List.from(amiibos);
       });
     } else {
       throw Exception('Failed to load amiibos');
     }
   }
 
-  Future<void> _toggleFavorite(Map<String, dynamic> amiibo) async {
+  void _filterAmiibos() {
+    setState(() {
+      filteredAmiibos = amiibos
+          .where((amiibo) =>
+              amiibo['name']
+                  .toLowerCase()
+                  .contains(_searchController.text.toLowerCase()))
+          .toList();
+    });
+  }
+
+  Future<void> _toggleFavoriteById(String tail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favoriteAmiiboIds = prefs.getStringList('favoriteAmiiboIds') ??
         [];
 
-    if (favoriteAmiiboIds.contains(amiibo['tail'])) {
-      favoriteAmiiboIds.remove(amiibo['tail']);
+    if (favoriteAmiiboIds.contains(tail)) {
+      favoriteAmiiboIds.remove(tail);
     } else {
-      favoriteAmiiboIds.add(amiibo['tail']);
+      favoriteAmiiboIds.add(tail);
     }
 
     await prefs.setStringList('favoriteAmiiboIds', favoriteAmiiboIds);
@@ -71,22 +92,36 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Amiibos'),
+        title: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: 'Search Amiibo',
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+          ),
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.favorite),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>
-                    MyAmiiboList(favoriteAmiibos: favoriteAmiibos)),
+                MaterialPageRoute(
+                  builder: (context) => MyAmiiboList(
+                    favoriteAmiibos: favoriteAmiibos,
+                    favoriteStatusChanged: (String tail) {
+                      _toggleFavoriteById(tail);
+                    },
+                  ),
+                ),
               );
             },
           ),
         ],
       ),
       body: GridView.builder(
-        itemCount: amiibos.length,
+        itemCount: filteredAmiibos.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 8,
@@ -95,7 +130,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
         ),
         padding: EdgeInsets.all(8),
         itemBuilder: (BuildContext context, int index) {
-          final amiibo = amiibos[index];
+          final amiibo = filteredAmiibos[index];
           return Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -109,8 +144,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
                     Navigator.pushNamed(
                       context,
                       '/showusage',
-                      arguments
-                          : {'name': amiibo['name']},
+                      arguments: {'name': amiibo['name']},
                     );
                   },
                   child: Column(
@@ -130,7 +164,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
                                   : Colors.grey,
                             ),
                             onPressed: () {
-                              _toggleFavorite(amiibo);
+                              _toggleFavoriteById(amiibo['tail']);
                             },
                           ),
                         ],
@@ -167,3 +201,4 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
     );
   }
 }
+
