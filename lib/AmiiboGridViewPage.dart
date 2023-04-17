@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'MyAmiiboList.dart';
+import 'package:amiibosearchfinder/ShowUsagePage.dart';
 
 class AmiiboGridViewPage extends StatefulWidget {
   @override
@@ -93,7 +94,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
-          controller: _searchController,
+                    controller: _searchController,
           decoration: InputDecoration(
             hintText: 'Search Amiibo',
             border: InputBorder.none,
@@ -141,10 +142,13 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      '/showusage',
-                      arguments: {'name': amiibo['name']},
+                      MaterialPageRoute(
+                        builder: (context) => ShowUsagePage(
+                          amiiboTail: amiibo['tail'],
+                        ),
+                      ),
                     );
                   },
                   child: Column(
@@ -185,10 +189,13 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
                 SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      '/showusage',
-                      arguments: {'name': amiibo['name']},
+                      MaterialPageRoute(
+                        builder: (context) => ShowUsagePage(
+                          amiiboTail: amiibo['tail'],
+                        ),
+                      ),
                     );
                   },
                   child: Text('Show Usage'),

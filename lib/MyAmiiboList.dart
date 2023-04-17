@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MyAmiiboList extends StatelessWidget {
+class MyAmiiboList extends StatefulWidget {
   final List<dynamic> favoriteAmiibos;
   final Function(String) favoriteStatusChanged;
 
@@ -10,13 +10,27 @@ class MyAmiiboList extends StatelessWidget {
   });
 
   @override
+  _MyAmiiboListState createState() => _MyAmiiboListState();
+}
+
+class _MyAmiiboListState extends State<MyAmiiboList> {
+  List<ValueNotifier<bool>> favoriteNotifiers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteNotifiers = List<ValueNotifier<bool>>.generate(
+        widget.favoriteAmiibos.length, (index) => ValueNotifier(true));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Amiibos'),
       ),
       body: GridView.builder(
-        itemCount: favoriteAmiibos.length,
+        itemCount: widget.favoriteAmiibos.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 8,
@@ -25,7 +39,7 @@ class MyAmiiboList extends StatelessWidget {
         ),
         padding: EdgeInsets.all(8),
         itemBuilder: (BuildContext context, int index) {
-          final amiibo = favoriteAmiibos[index];
+          final amiibo = widget.favoriteAmiibos[index];
           return Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -44,13 +58,21 @@ class MyAmiiboList extends StatelessWidget {
                         alignment: Alignment.topRight,
                         children: [
                           Image.network(amiibo['image'], height: 150, width: 150),
-                          IconButton(
-                            icon: Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              favoriteStatusChanged(amiibo['tail']);
+                          ValueListenableBuilder<bool>(
+                            valueListenable: favoriteNotifiers[index],
+                            builder: (context, value, child) {
+                              return IconButton(
+                                icon: Icon(
+                                  value ? Icons.favorite : Icons.favorite_border,
+                                  color: value ? Colors.red : Colors.grey,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    favoriteNotifiers[index].value = !value;
+                                    widget.favoriteStatusChanged(amiibo['tail']);
+                                  });
+                                },
+                              );
                             },
                           ),
                         ],
