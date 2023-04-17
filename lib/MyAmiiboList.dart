@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:amiibosearchfinder/ShowUsagePage.dart';
 
 class MyAmiiboList extends StatefulWidget {
   final List<dynamic> favoriteAmiibos;
@@ -93,7 +94,14 @@ class _MyAmiiboListState extends State<MyAmiiboList> {
                 SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/showusage', arguments: {'name': amiibo['name']});
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowUsagePage(
+                          amiiboTail: amiibo['tail'],
+                        ),
+                      ),
+                    );
                   },
                   child: Text('Show Usage'),
                 ),
