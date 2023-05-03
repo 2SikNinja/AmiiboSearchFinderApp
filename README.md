@@ -1,16 +1,30 @@
-# amiibosearchfinder
+# Amiibo Search Finder
 
-This project allows users to find details about amiibos and create
+Amiibo Search Finder is a Flutter app that allows users to search and explore Amiibo figures. The app fetches Amiibo data from the AmiiboAPI and displays it in a grid view. Users can search for specific Amiibos, view their details, and save their favorite Amiibos to a list.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Fetches Amiibo data from AmiiboAPI (https://www.amiiboapi.com/)
+- Displays Amiibos in a grid view with images and names
+- Supports searching for Amiibos by name
+- Allows users to save their favorite Amiibos to a list using Shared Preferences
+- Shows Amiibo usage information when a user selects an Amiibo
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Dependencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The app uses the following dependencies:
+
+- `http`: For making API requests
+- `shared_preferences`: For saving favorite Amiibos locally
+- `flutter/material.dart`: For UI components
+
+## Project Structure
+
+The main files and folders in the project include:
+
+- `main.dart`: The entry point of the app.
+- `LoadingScreen.dart`: A loading screen displayed while fetching Amiibo data from the API.
+- `AmiiboGridViewPage.dart`: The main page that displays Amiibos in a grid view and allows users to search for specific Amiibos.
+- `MyAmiiboList.dart`: A page that displays the user's favorite Amiibos.
+- `ShowUsagePage.dart`: A page that shows the usage information for a selected Amiibo.
