@@ -11,6 +11,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  double progressValue = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +25,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final amiiboList = jsonResponse['amiibo'];
+
+      // Simulate progress (Since the API doesn't provide progress info)
+      for (int i = 1; i <= 10; i++) {
+        await Future.delayed(Duration(milliseconds: 100));
+        setState(() {
+          progressValue = i / 10;
+        });
+      }
 
       Navigator.pushReplacement(
         context,
@@ -37,7 +47,23 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 20),
+            Text("Downloading Data"),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 10,
+              child: LinearProgressIndicator(
+                value: progressValue,
+                backgroundColor: Colors.grey,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -31,7 +31,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
 
   Future<void> _fetchAllAmiibos() async {
     final response = await http.get(
-        Uri.parse('https://www.amiiboapi.com/api/amiibo/'));
+        Uri.parse('https://www.amiiboapi.com/api/amiibo/?type=figure'));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
@@ -94,7 +94,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
-                    controller: _searchController,
+          controller: _searchController,
           decoration: InputDecoration(
             hintText: 'Search Amiibo',
             border: InputBorder.none,
@@ -110,7 +110,7 @@ class _AmiiboGridViewPageState extends State<AmiiboGridViewPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => MyAmiiboList(
-                    favoriteAmiibos: favoriteAmiibos,
+                                        favoriteAmiibos: favoriteAmiibos,
                     favoriteStatusChanged: (String tail) {
                       _toggleFavoriteById(tail);
                     },

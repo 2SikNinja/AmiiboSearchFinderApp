@@ -113,6 +113,19 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                       'You agree to indemnify, defend, and hold harmless the developer, its affiliates, officers, directors, employees, agents, licensors, and suppliers from and against all claims, losses, liabilities, expenses, damages, and costs, including reasonable attorneys\' fees, resulting from any violation of these terms and conditions or any activity related to your use of the application.',
                       style: TextStyle(fontSize: 16),
                     ),
+                    SizedBox(height: 16),
+                    Text(
+                      '8. TAKING DOWN',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'JUST CONTACT ME TO TAKE THIS APP DOWN, THIS IS A SCHOOL PROJECT PLEASE!!!!',
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ],
                 ),
               ),
